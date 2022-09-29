@@ -36,7 +36,7 @@ public class JDBCExample {
 	
     public static void main(String args[]){
         try {
-            String url="jdbc:mysql://desarrollo.is.escuelaing.edu.co:3306/bdprueba ";
+            String url="jdbc:mysql://desarrollo.is.escuelaing.edu.co:3306/bdprueba";
             String driver="com.mysql.jdbc.Driver";
             String user="bdprueba";
             String pwd="prueba2019";
@@ -59,7 +59,7 @@ public class JDBCExample {
             System.out.println("-----------------------");
             
             
-            int suCodigoECI=20134423;
+            int suCodigoECI=20134429;
             registrarNuevoProducto(con, suCodigoECI, "SU NOMBRE", 99999999);            
             con.commit();
                         
@@ -82,16 +82,21 @@ public class JDBCExample {
      * @throws SQLException 
      */
     public static void registrarNuevoProducto(Connection con, int codigo, String nombre,int precio) throws SQLException{
+    	String query = "insert into ORD_PRODUCTOS values(?,?,?)";
+    	
     	try {
     		//Crear preparedStatement
+    		prepareSt = con.prepareStatement(query);
             //Asignar parámetros
+    		prepareSt.setInt(1, codigo);
+    		prepareSt.setString(2, nombre);
+    		prepareSt.setInt(3, precio);
             //usar 'execute'
-        
-        }catch(Exception e) {
+    		prepareSt.executeUpdate();
+    		con.commit();
+        }catch(SQLException e) {
+        	e.printStackTrace();
         }
-
-        
-        con.commit();
         
     }
     
@@ -131,13 +136,28 @@ public class JDBCExample {
      * @return el costo total del pedido (suma de: cantidades*precios)
      */
     public static int valorTotalPedido(Connection con, int codigoPedido){
+    	int total = 0;
+    	String query = "Select SUM(cantidad * precio) from ORD_DETALLE_PEDIDO inner join ORD_PRODUCTOS ON (codigo=producto_fk) WHERE pedido_fk = ?";
+        try {
+            //Crear prepared statement
+        	prepareSt = con.prepareStatement(query);
+            //asignar parámetros
+        	prepareSt.setInt(1, codigoPedido);
+            //usar executeQuery
+        	ResultSet resultado = prepareSt.executeQuery();
+        	
+            //Sacar resultado del ResultSet
+        	while(resultado.next()) {
+        		
+        		total = resultado.getInt(1);
+        	}
+        	
+        }catch(SQLException e) {
+        	e.printStackTrace();
+        }
+
         
-        //Crear prepared statement
-        //asignar parámetros
-        //usar executeQuery
-        //Sacar resultado del ResultSet
-        
-        return 0;
+        return total;
     }
     
 
