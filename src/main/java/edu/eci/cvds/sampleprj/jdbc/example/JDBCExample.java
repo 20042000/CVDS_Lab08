@@ -82,9 +82,13 @@ public class JDBCExample {
      * @throws SQLException 
      */
     public static void registrarNuevoProducto(Connection con, int codigo, String nombre,int precio) throws SQLException{
-        //Crear preparedStatement
-        //Asignar parámetros
-        //usar 'execute'
+    	try {
+    		//Crear preparedStatement
+            //Asignar parámetros
+            //usar 'execute'
+        
+        }catch(Exception e) {
+        }
 
         
         con.commit();
