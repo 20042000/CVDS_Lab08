@@ -5,7 +5,4 @@
   
 <mapper namespace="edu.eci.cvds.sampleprj.dao.mybatis.mappers.TipoItemMapper">
 
-    
-
-                
 </mapper>
