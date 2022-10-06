@@ -14,26 +14,26 @@
 	</resultMap>
 	
 	<resultMap type='ItemRentado' id='ItemRentadoResult'>
-	    <id property='id' column='id'/>
-	    <result property='fechainiciorenta' column='fechainiciorenta'/>
-	    <result property='fechafinrenta' column='fechafinrenta'/> 
+	    <id property='itemren_id' column='id'/>
+	    <result property='itemren_fechainiciorenta' column='fechainiciorenta'/>
+	    <result property='itemren_fechafinrenta' column='fechafinrenta'/> 
 	<association property="item" javaType="Item"></association>      
 	</resultMap>
 	
 	<resultMap type='Item' id='ItemResult'>
-	    <id property='id' column='id'/>
-	    <result property='nombre' column='nombre'/>
-	    <result property='descripcion' column='descripcion'/>  
-	    <result property='fechaLanzamiento' column='fechaLanzamiento'/> 
-	    <result property='tarifaxDia' column='tarifaxDia'/> 
-	    <result property='formatoRenta' column='formatoRenta'/>
-	    <result property='genero' column='genero'/> 
+	    <id property='item_id' column='id'/>
+	    <result property='item_nombre' column='nombre'/>
+	    <result property='item_descripcion' column='descripcion'/>  
+	    <result property='item_fechalanzamiento' column='fechaLanzamiento'/> 
+	    <result property='item_tarifaxdia' column='tarifaxDia'/> 
+	    <result property='item_formatorenta' column='formatoRenta'/>
+	    <result property='item_genero' column='genero'/> 
 	    <association property="tipo" javaType="TipoItem"></association>      
 	</resultMap>
 	
 	<resultMap type='TipoItem' id='TipoItemResult'>
-	    <id property='id' column='id'/>
-	    <result property='descripcion' column='descripcion'/>       
+	    <id property='tipoit_id' column='id'/>
+	    <result property='tipoit_descripcion' column='descripcion'/>       
 	</resultMap>                  
 
 	<select parameterType="map" id="consultarClientes" resultMap="ClienteResult">
@@ -45,20 +45,20 @@
 	    c.email,
 	    c.vetado,
 	    
-	    ir.id ,
-	    ir.fechainiciorenta ,
-	    ir.fechafinrenta ,
+	    ir.id as itemren_id ,
+	    ir.fechainiciorenta as itemren_fechainiciorenta ,
+	    ir.fechafinrenta as itemren_fechafinrenta,
 	    
-	    i.id ,
-	    i.nombre ,
-	    i.descripcion ,
-	    i.fechalanzamiento ,
-	    i.tarifaxdia ,
-	    i.formatorenta ,
-	    i.genero ,
+	    i.id as item_id ,
+	    i.nombre as item_nombre ,
+	    i.descripcion as item_descripcion,
+	    i.fechalanzamiento as item_fechalanzamiento,
+	    i.tarifaxdia as item_tarifaxdia ,
+	    i.formatorenta as item_formatorenta ,
+	    i.genero as item_genero ,
 	            
-	    ti.id ,
-	    ti.descripcion 
+	    ti.id as tipoit_id ,
+	    ti.descripcion as tipoit_descripcion
 	    FROM VI_CLIENTES as c 
 	    left join VI_ITEMRENTADO as ir on c.documento=ir.CLIENTES_documento 
 	    left join VI_ITEMS as i on ir.ITEMS_id=i.id 
