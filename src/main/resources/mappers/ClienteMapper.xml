@@ -17,24 +17,9 @@
 	    <id property='id' column='id'/>
 	    <result property='fechainiciorenta' column='fechainiciorenta'/>
 	    <result property='fechafinrenta' column='fechafinrenta'/> 
-		<association property="item" javaType="Item" columnPrefix='item_'></association>      
+		<association property="item" javaType="Item" resultMap='edu.eci.cvds.sampleprj.dao.mybatis.mappers.ItemMapper.ItemResult' columnPrefix='item_'></association>      
 	</resultMap>
-	
-	<resultMap type='Item' id='ItemResult'>
-	    <id property='id' column='id'/>
-	    <result property='nombre' column='nombre'/>
-	    <result property='descripcion' column='descripcion'/>  
-	    <result property='fechalanzamiento' column='fechaLanzamiento'/> 
-	    <result property='tarifaxdia' column='tarifaxDia'/> 
-	    <result property='formatorenta' column='formatoRenta'/>
-	    <result property='genero' column='genero'/> 
-	    <association property="tipo" javaType="TipoItem" columnPrefix='tipoit_'></association>      
-	</resultMap>
-	
-	<resultMap type='TipoItem' id='TipoItemResult'>
-	    <id property='id' column='id'/>
-	    <result property='descripcion' column='descripcion'/>       
-	</resultMap>                  
+	                  
 
 	<select parameterType="map" id="consultarClientes" resultMap="ClienteResult">
 				select
@@ -65,5 +50,40 @@
 	    left join VI_TIPOITEM as ti on i.TIPOITEM_id=ti.id 
 	</select>
 
-          	
+	<select parameterType="map" id="consultarCliente" resultMap="ClienteResult">
+				select
+	    c.nombre,
+	    c.documento,
+	    c.telefono,
+	    c.direccion,
+	    c.email,
+	    c.vetado,
+	    
+	    ir.id as itemren_id ,
+	    ir.fechainiciorenta as itemren_fechainiciorenta ,
+	    ir.fechafinrenta as itemren_fechafinrenta,
+	    
+	    i.id as item_id ,
+	    i.nombre as item_nombre ,
+	    i.descripcion as item_descripcion,
+	    i.fechalanzamiento as item_fechalanzamiento,
+	    i.tarifaxdia as item_tarifaxdia ,
+	    i.formatorenta as item_formatorenta ,
+	    i.genero as item_genero ,
+	            
+	    ti.id as tipoit_id ,
+	    ti.descripcion as tipoit_descripcion
+	    FROM VI_CLIENTES as c 
+	    left join VI_ITEMRENTADO as ir on c.documento=ir.CLIENTES_documento 
+	    left join VI_ITEMS as i on ir.ITEMS_id=i.id 
+	    left join VI_TIPOITEM as ti on i.TIPOITEM_id=ti.id
+	    where c.documento = #{idcli} 
+	</select> 
+	
+    <insert parameterType="map" id="agregarItemRentadoACliente">
+    	insert into
+    	VI_ITEMRENTADO (CLIENTES_documento, ITEMS_id, fechainiciorenta, fechafinrenta)
+    	VALUES (#{idcli}, #{idit}, #{fechainicio}, #{fechafin});
+    </insert>
+    
 </mapper>
