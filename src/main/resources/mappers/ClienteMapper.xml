@@ -10,30 +10,30 @@
 	    <result property='telefono' column='telefono'/>  
 	    <result property='direccion' column='direccion'/>
 	    <result property='vetado' column='vetado'/>     
-	    <collection property='rentados' ofType='ItemRentado' resultMap='ItemRentadoResult'></collection>
+	    <collection property='rentados' ofType='ItemRentado' resultMap='ItemRentadoResult' columnPrefix='itemren_'></collection>
 	</resultMap>
 	
 	<resultMap type='ItemRentado' id='ItemRentadoResult'>
-	    <id property='itemren_id' column='id'/>
-	    <result property='itemren_fechainiciorenta' column='fechainiciorenta'/>
-	    <result property='itemren_fechafinrenta' column='fechafinrenta'/> 
-	<association property="item" javaType="Item"></association>      
+	    <id property='id' column='id'/>
+	    <result property='fechainiciorenta' column='fechainiciorenta'/>
+	    <result property='fechafinrenta' column='fechafinrenta'/> 
+		<association property="item" javaType="Item" columnPrefix='item_'></association>      
 	</resultMap>
 	
 	<resultMap type='Item' id='ItemResult'>
-	    <id property='item_id' column='id'/>
-	    <result property='item_nombre' column='nombre'/>
-	    <result property='item_descripcion' column='descripcion'/>  
-	    <result property='item_fechalanzamiento' column='fechaLanzamiento'/> 
-	    <result property='item_tarifaxdia' column='tarifaxDia'/> 
-	    <result property='item_formatorenta' column='formatoRenta'/>
-	    <result property='item_genero' column='genero'/> 
-	    <association property="tipo" javaType="TipoItem"></association>      
+	    <id property='id' column='id'/>
+	    <result property='nombre' column='nombre'/>
+	    <result property='descripcion' column='descripcion'/>  
+	    <result property='fechalanzamiento' column='fechaLanzamiento'/> 
+	    <result property='tarifaxdia' column='tarifaxDia'/> 
+	    <result property='formatorenta' column='formatoRenta'/>
+	    <result property='genero' column='genero'/> 
+	    <association property="tipo" javaType="TipoItem" columnPrefix='tipoit_'></association>      
 	</resultMap>
 	
 	<resultMap type='TipoItem' id='TipoItemResult'>
-	    <id property='tipoit_id' column='id'/>
-	    <result property='tipoit_descripcion' column='descripcion'/>       
+	    <id property='id' column='id'/>
+	    <result property='descripcion' column='descripcion'/>       
 	</resultMap>                  
 
 	<select parameterType="map" id="consultarClientes" resultMap="ClienteResult">
