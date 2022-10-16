@@ -32,7 +32,7 @@ import java.util.logging.Logger;
  */
 public class JDBCExample {
     
-	private static PreparedStatement prepareSt = null; 
+	//private static PreparedStatement prepareSt = null; 
 	
     public static void main(String args[]){
         try {
@@ -60,8 +60,8 @@ public class JDBCExample {
             
             
             int suCodigoECI=20134429;
-            registrarNuevoProducto(con, suCodigoECI, "SU NOMBRE", 99999999);            
-            con.commit();
+            //registrarNuevoProducto(con, suCodigoECI, "SU NOMBRE", 99999999);            
+            //con.commit();
                         
             
             con.close();
@@ -69,7 +69,7 @@ public class JDBCExample {
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(JDBCExample.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+        System.exit(0);
         
     }
     
@@ -82,8 +82,8 @@ public class JDBCExample {
      * @throws SQLException 
      */
     public static void registrarNuevoProducto(Connection con, int codigo, String nombre,int precio) throws SQLException{
+    	PreparedStatement prepareSt = null;
     	String query = "insert into ORD_PRODUCTOS values(?,?,?)";
-    	
     	try {
     		//Crear preparedStatement
     		prepareSt = con.prepareStatement(query);
@@ -93,6 +93,7 @@ public class JDBCExample {
     		prepareSt.setInt(3, precio);
             //usar 'execute'
     		prepareSt.executeUpdate();
+    		prepareSt.close();
     		con.commit();
         }catch(SQLException e) {
         	e.printStackTrace();
@@ -107,6 +108,7 @@ public class JDBCExample {
      * @return 
      */
     public static List<String> nombresProductosPedido(Connection con, int codigoPedido){
+    	PreparedStatement prepareSt = null;
         List<String> np=new LinkedList<>();
         String query = "Select nombre "+ "From ORD_PRODUCTOS INNER JOIN ORD_DETALLE_PEDIDO detalle ON (codigo = producto_fk)"+
         "WHERE pedido_fk = ?";
@@ -122,6 +124,7 @@ public class JDBCExample {
         		//Llenar la lista y retornarla
         		np.add(resultado.getString("nombre"));
         	}
+        	prepareSt.close();
         }catch(SQLException e) {
         	e.printStackTrace();
         }
@@ -136,6 +139,7 @@ public class JDBCExample {
      * @return el costo total del pedido (suma de: cantidades*precios)
      */
     public static int valorTotalPedido(Connection con, int codigoPedido){
+    	PreparedStatement prepareSt = null;
     	int total = 0;
     	String query = "Select SUM(cantidad * precio) from ORD_DETALLE_PEDIDO inner join ORD_PRODUCTOS ON (codigo=producto_fk) WHERE pedido_fk = ?";
         try {
@@ -151,12 +155,10 @@ public class JDBCExample {
         		
         		total = resultado.getInt(1);
         	}
-        	
+        	prepareSt.close();
         }catch(SQLException e) {
         	e.printStackTrace();
         }
-
-        
         return total;
     }
     

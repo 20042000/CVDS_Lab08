@@ -21,6 +21,8 @@ package edu.eci.cvds.samples.services.client;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.util.Date;
+
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -28,6 +30,9 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import edu.eci.cvds.sampleprj.dao.mybatis.mappers.ClienteMapper;
 import edu.eci.cvds.sampleprj.dao.mybatis.mappers.ItemMapper;
+import edu.eci.cvds.samples.entities.Item;
+import edu.eci.cvds.samples.entities.ItemRentado;
+import edu.eci.cvds.samples.entities.TipoItem;
 
 /**
  *
@@ -66,16 +71,34 @@ public class MyBatisExample {
         SqlSession sqlss = sessionfact.openSession();
 
         ClienteMapper cm=sqlss.getMapper(ClienteMapper.class);
+        System.out.println("--------------------------------");
+        System.out.println("-------------Clientes-----------");
+        System.out.println("--------------------------------");
         System.out.println(cm.consultarClientes());
         
-        //System.out.println(cm.consultarCliente(2154421));
+        System.out.println("-------------------------------------------");
+        System.out.println("-------------Informacion Cliente-----------");
+        System.out.println("-------------------------------------------");
+        cm.agregarItemRentadoACliente(2154421, 93,new Date(), new Date());
+        System.out.println(cm.consultarCliente(2154421));
         
         ItemMapper im=sqlss.getMapper(ItemMapper.class);
+        System.out.println("--------------------------------");
+        System.out.println("-------------Items--------------");
+        System.out.println("--------------------------------");
         System.out.println(im.consultarItems());
+        
+        Item nuevoItem  = new Item(new TipoItem (2, "ficcion"), 57, "star wars", "pelicula", new Date(), 3000, "dvd", "ficcion");
+        im.insertarItem(nuevoItem);
+        System.out.println("--------------------------------");
+        System.out.println("---------Item agregado----------");
+        System.out.println("--------------------------------");
+        System.out.println(im.consultarItem(57));
         
         sqlss.commit();
         
         sqlss.close();
+        System.exit(0);
       
     }
 
