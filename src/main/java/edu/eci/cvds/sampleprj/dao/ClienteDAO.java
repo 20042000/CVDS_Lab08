@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import edu.eci.cvds.exception.PersistenceException;
 import edu.eci.cvds.samples.entities.Cliente;
 import edu.eci.cvds.samples.entities.Item;
+import edu.eci.cvds.samples.entities.ItemRentado;
 
 public interface ClienteDAO {
 	
@@ -16,6 +17,8 @@ public interface ClienteDAO {
 	public void agregarItemRentadoACliente(int documento, int idit, Date fechainicio,Date fechafin) throws PersistenceException;
 
 	public List<Cliente> consultarClientes() throws PersistenceException;
+	
+	public List<ItemRentado> consultarItemsCliente(int id) throws PersistenceException;
 
 }
 

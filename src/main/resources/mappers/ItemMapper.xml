@@ -50,6 +50,27 @@
 	    where i.id = #{idit}
 	</select>
 	
+	<select parameterType="map" id="consultarItemsDisponibles" resultMap="ItemResult">
+				select	    
+	    
+	    i.nombre,
+	    i.descripcion
+	    
+	    FROM VI_ITEMS as i
+	    Where i.id NOT IN (select itemren.id From VI_ITEMRENTADO as itemren)
+	    order by i.nombre;
+	</select>
+	
+		<select parameterType="map" id="consultarMultaAlquiler" resultMap="ItemResult">
+				select	SUM(sub.costo) as costoMulta    
+			from
+			(select datediff(vi.fechafinrenta, #{finRenta}) as dias, datediff(vi.fechafinrenta, #{finRenta})* it.tarifaxdia as costo
+			from VI_ITEMRENTADO vo join VI_ITEMS it on vi.ITEMS_id = it.id
+			where it.id = #{itemID}
+			group by dias, costo
+			having dias > 0) as sub;
+	</select>
+	
 	<insert parameterType="map" id="insertarItem">
     	insert into
     	VI_ITEMS (id, nombre, descripcion, fechaLanzamiento, tarifaxDia, formatoRenta, genero, TIPOITEM_id)
