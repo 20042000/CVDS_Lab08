@@ -18,3 +18,5 @@ public interface ClienteDAO {
 	public List<Cliente> consultarClientes() throws PersistenceException;
 
 }
+
+

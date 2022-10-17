@@ -42,6 +42,6 @@ public class MyBATISClienteDAO implements ClienteDAO{
 			throw new PersistenceException("Error al consultar los clientes ",e);
 		}
 	}
-	
-
 }
+
+
