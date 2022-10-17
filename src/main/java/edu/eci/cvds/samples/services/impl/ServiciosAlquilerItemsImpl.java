@@ -16,6 +16,8 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.mybatis.guice.transactional.Transactional;
+
 @Singleton
 public class ServiciosAlquilerItemsImpl implements ServiciosAlquiler{
 	@Inject
@@ -131,6 +133,7 @@ public class ServiciosAlquilerItemsImpl implements ServiciosAlquiler{
 		
 	}
 
+	@Transactional
 	@Override 
 	public void registrarAlquilerCliente(Date date, long docu, Item item, int numdias) throws ExcepcionServiciosAlquiler{ 
 		try { 
@@ -142,6 +145,7 @@ public class ServiciosAlquilerItemsImpl implements ServiciosAlquiler{
 		}
 	}
 
+	@Transactional
 	@Override 
 	public void registrarCliente(Cliente c) throws ExcepcionServiciosAlquiler { 
 		try { 
@@ -164,6 +168,7 @@ public class ServiciosAlquilerItemsImpl implements ServiciosAlquiler{
 		}
 	}
 
+	@Transactional
 	@Override 
 	public void actualizarTarifaItem(int id, long tarifa) throws ExcepcionServiciosAlquiler { 
 		try { 
@@ -175,6 +180,7 @@ public class ServiciosAlquilerItemsImpl implements ServiciosAlquiler{
 		}
 	}
 	
+	@Transactional
 	@Override 
 	public void registrarItem(Item i) throws ExcepcionServiciosAlquiler {
 		try { 
@@ -186,6 +192,7 @@ public class ServiciosAlquilerItemsImpl implements ServiciosAlquiler{
 		} 
 	}
 	
+	@Transactional
 	@Override 
 	public void vetarCliente(long docu, boolean estado) throws ExcepcionServiciosAlquiler {
 		try { 

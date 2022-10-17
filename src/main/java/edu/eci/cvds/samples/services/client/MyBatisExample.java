@@ -65,7 +65,7 @@ public class MyBatisExample {
      * @param args
      * @throws SQLException 
      */
-    public static void main(String args[]) throws SQLException {
+    public static void main(String args[]) throws SQLException{
         SqlSessionFactory sessionfact = getSqlSessionFactory();
 
         SqlSession sqlss = sessionfact.openSession();
@@ -76,11 +76,11 @@ public class MyBatisExample {
         System.out.println("--------------------------------");
         System.out.println(cm.consultarClientes());
         
-        System.out.println("-------------------------------------------");
+        /*System.out.println("-------------------------------------------");
         System.out.println("-------------Informacion Cliente-----------");
         System.out.println("-------------------------------------------");
         cm.agregarItemRentadoACliente(2154421, 93,new Date(), new Date());
-        System.out.println(cm.consultarCliente(2154421));
+        System.out.println(cm.consultarCliente(2154421));*/
         
         ItemMapper im=sqlss.getMapper(ItemMapper.class);
         System.out.println("--------------------------------");
@@ -88,12 +88,13 @@ public class MyBatisExample {
         System.out.println("--------------------------------");
         System.out.println(im.consultarItems());
         
-        Item nuevoItem  = new Item(new TipoItem (2, "ficcion"), 57, "star wars", "pelicula", new Date(), 3000, "dvd", "ficcion");
+        /*Item nuevoItem  = new Item(new TipoItem (2, "ficcion"), 57, "star wars", "pelicula", new Date(), 3000, "dvd", "ficcion");
         im.insertarItem(nuevoItem);
         System.out.println("--------------------------------");
         System.out.println("---------Item agregado----------");
         System.out.println("--------------------------------");
-        System.out.println(im.consultarItem(57));
+        System.out.println(im.consultarItem(57));*/
+        
         
         sqlss.commit();
         
