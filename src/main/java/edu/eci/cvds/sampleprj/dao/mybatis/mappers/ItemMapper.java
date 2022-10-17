@@ -23,6 +23,8 @@ public interface ItemMapper {
     public List<Item> consultarItemsDisponibles ();
     
     public long consultarMultaAlquiler(@Param("itemID") int itemId, @Param("finRenta") Date finRenta);
+    
+    public void actualizarTarifaItem(@Param("id")int id, @Param("nuevaTarifa")long tarifa);
 }
 
 

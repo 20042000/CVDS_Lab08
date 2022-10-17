@@ -24,5 +24,8 @@ public interface ItemDAO {
 	
 	//consultar la multa del alquiler
 	public long consultarMultaAlquiler(int itemId, Date finRenta) throws PersistenceException;
+	
+	//actualizar la tarifa del item
+	public void actualizarTarifaItem(int id, long tarifa) throws PersistenceException;
 }
 

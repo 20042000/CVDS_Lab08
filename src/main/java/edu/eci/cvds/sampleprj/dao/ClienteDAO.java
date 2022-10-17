@@ -20,6 +20,9 @@ public interface ClienteDAO {
 	
 	public List<ItemRentado> consultarItemsCliente(int id) throws PersistenceException;
 
+	public void agregarCliente(Cliente cliente) throws PersistenceException;
+	
+	public void vetarCliente(int id, boolean vetado)  throws PersistenceException;
 }
 
 

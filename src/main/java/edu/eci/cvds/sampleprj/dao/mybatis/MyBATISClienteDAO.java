@@ -51,6 +51,24 @@ public class MyBATISClienteDAO implements ClienteDAO{
 			throw new PersistenceException("Error al consultar los items del cliente "+ id,e);
 		}		
 	}
+	
+	@Override
+	public void agregarCliente(Cliente cliente) throws PersistenceException{
+		try{ 
+			clienteMapper.agregarCliente(cliente);
+		}catch(org.apache.ibatis.exceptions.PersistenceException e){ 
+			throw new PersistenceException("Error al agregar el cliente "+ cliente,e);
+		}
+	}
+	
+	@Override
+	public void vetarCliente(int id, boolean vetado) throws PersistenceException {
+		try{ 
+			clienteMapper.vetarCliente(id, vetado);
+		}catch(org.apache.ibatis.exceptions.PersistenceException e){ 
+			throw new PersistenceException("Error al vetar el cliente "+ id,e);
+		}
+	}
 }
 
 

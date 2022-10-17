@@ -111,4 +111,16 @@
     	VALUES (#{idcli}, #{idit}, #{fechainicio}, #{fechafin});
     </insert>
     
+    <insert parameterType="map" id="agregarCliente">
+    	insert into
+    	VI_CLIENTES (documento, nombre, telefono, direccion, email, vetado)
+    	VALUES (#{cliente.documento}, #{cliente.nombre}, #{cliente.telefono}, #{cliente.direccion}, #{cliente.email}, #{cliente.vetado});
+    </insert>
+    
+    <update parameterType="map" id="vetarCliente">
+    	update VI_CLIENTES
+    	set vetado = #{clienteVetado}
+    	where documento = #{idcli}
+    </update>
+    
 </mapper>

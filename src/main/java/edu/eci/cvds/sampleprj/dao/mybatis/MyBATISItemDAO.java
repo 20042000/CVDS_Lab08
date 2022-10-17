@@ -59,7 +59,15 @@ public class MyBATISItemDAO implements ItemDAO {
 		try{ 
 			return itemMapper.consultarMultaAlquiler(itemId,finRenta);
 		}catch(org.apache.ibatis.exceptions.PersistenceException e){ 
-			throw new PersistenceException("Error al consultar la multa del item rentado ",e);
+			throw new PersistenceException("Error al consultar la multa del item rentado "+itemId,e);
+		}
+	}
+	
+	public void actualizarTarifaItem(int id, long tarifa) throws PersistenceException{
+		try{ 
+			itemMapper.actualizarTarifaItem(id, tarifa);;
+		}catch(org.apache.ibatis.exceptions.PersistenceException e){ 
+			throw new PersistenceException("Error al actualizar la tarifa del item "+id,e);
 		}
 	}
 }

@@ -31,8 +31,8 @@ public class ServiciosAlquilerItemsImpl implements ServiciosAlquiler{
 	public int valorMultaRetrasoxDia(int itemId) throws ExcepcionServiciosAlquiler { 
 		try {
 			return (int)itemDAO.load(itemId).getTarifaxDia();
-		}catch(PersistenceException pe){
-			throw new ExcepcionServiciosAlquiler(pe.getMessage());
+		}catch(PersistenceException ex){
+			throw new ExcepcionServiciosAlquiler("Error al consultar el valor de la multa del item"+itemId,ex);
 		}catch(Exception e) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
@@ -43,8 +43,8 @@ public class ServiciosAlquilerItemsImpl implements ServiciosAlquiler{
 	public Cliente consultarCliente(long docu) throws ExcepcionServiciosAlquiler { 
 		try {
 			return clienteDAO.consultarCliente((int)docu);
-		}catch(PersistenceException pe){
-			throw new ExcepcionServiciosAlquiler(pe.getMessage());
+		}catch(PersistenceException ex){
+			throw new ExcepcionServiciosAlquiler("Error al consultar el cliente "+docu,ex);
 		}catch(Exception e) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
@@ -55,8 +55,8 @@ public class ServiciosAlquilerItemsImpl implements ServiciosAlquiler{
 	public List<ItemRentado> consultarItemsCliente(long idcliente) throws ExcepcionServiciosAlquiler { 
 		try {
 			return clienteDAO.consultarItemsCliente((int)idcliente);
-		}catch(PersistenceException pe){
-			throw new ExcepcionServiciosAlquiler(pe.getMessage());
+		}catch(PersistenceException ex){
+			throw new ExcepcionServiciosAlquiler("Error al consultar los items del cliente "+idcliente,ex);
 		}catch(Exception e) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}		
@@ -66,8 +66,8 @@ public class ServiciosAlquilerItemsImpl implements ServiciosAlquiler{
 	public List<Cliente> consultarClientes() throws ExcepcionServiciosAlquiler { 
 		try {
 			return clienteDAO.consultarClientes();
-		}catch(PersistenceException pe){
-			throw new ExcepcionServiciosAlquiler(pe.getMessage());
+		}catch(PersistenceException ex){
+			throw new ExcepcionServiciosAlquiler("Error al consultar los clientes",ex);
 		}catch(Exception e) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
@@ -101,7 +101,7 @@ public class ServiciosAlquilerItemsImpl implements ServiciosAlquiler{
 		try { 
 			return itemDAO.consultarMultaAlquiler(iditem,fechaDevolucion); 
 		} catch (PersistenceException ex) { 
-			throw new ExcepcionServiciosAlquiler("Error al consultar la multa del item  rentado",ex);
+			throw new ExcepcionServiciosAlquiler("Error al consultar la multa del item  rentado"+iditem,ex);
 		}catch(Exception e) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}		 
@@ -112,7 +112,7 @@ public class ServiciosAlquilerItemsImpl implements ServiciosAlquiler{
 		try { 
 			return tipoItemDAO.getTipoItem(id); 
 		} catch (PersistenceException ex) { 
-			throw new ExcepcionServiciosAlquiler("Error al consultar el tipo item",ex);
+			throw new ExcepcionServiciosAlquiler("Error al consultar el tipo item"+id,ex);
 		}catch(Exception e) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
@@ -134,10 +134,9 @@ public class ServiciosAlquilerItemsImpl implements ServiciosAlquiler{
 	@Override 
 	public void registrarAlquilerCliente(Date date, long docu, Item item, int numdias) throws ExcepcionServiciosAlquiler{ 
 		try { 
-			
 			clienteDAO.agregarItemRentadoACliente((int)docu,item.getId(), date,Date.valueOf(date.toLocalDate().plusDays(numdias)) );
 		} catch (PersistenceException ex) { 
-			throw new ExcepcionServiciosAlquiler("Error al registrar el alquiler",ex);
+			throw new ExcepcionServiciosAlquiler("Error al registrar el alquiler del item"+item.getId(),ex);
 		}catch(Exception e) {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
@@ -145,27 +144,57 @@ public class ServiciosAlquilerItemsImpl implements ServiciosAlquiler{
 
 	@Override 
 	public void registrarCliente(Cliente c) throws ExcepcionServiciosAlquiler { 
-		throw new UnsupportedOperationException("Not supported yet.");
+		try { 
+			clienteDAO.agregarCliente(c);
+		} catch (PersistenceException ex) { 
+			throw new ExcepcionServiciosAlquiler("Error al registrar el cliente"+c,ex);
+		}catch(Exception e) {
+			throw new UnsupportedOperationException("Not supported yet.");
+		}
 	}
 
 	@Override 
 	public long consultarCostoAlquiler(int iditem, int numdias) throws ExcepcionServiciosAlquiler { 
-		throw new UnsupportedOperationException("Not supported yet.");
+		try { 
+			return consultarItem(iditem).getTarifaxDia()*numdias;
+		} catch (ExcepcionServiciosAlquiler ex) { 
+			throw new ExcepcionServiciosAlquiler("Error al consultar el costo del alquiler del item"+iditem,ex);
+		}catch(Exception e) {
+			throw new UnsupportedOperationException("Not supported yet.");
+		}
 	}
 
 	@Override 
 	public void actualizarTarifaItem(int id, long tarifa) throws ExcepcionServiciosAlquiler { 
-		throw new UnsupportedOperationException("Not supported yet.");
+		try { 
+			itemDAO.actualizarTarifaItem(id, tarifa);
+		} catch (PersistenceException ex) { 
+			throw new ExcepcionServiciosAlquiler("Error al actualizar la tarifa del item"+id,ex);
+		}catch(Exception e) {
+			throw new UnsupportedOperationException("Not supported yet.");
+		}
 	}
+	
 	@Override 
 	public void registrarItem(Item i) throws ExcepcionServiciosAlquiler {
-		throw new UnsupportedOperationException("Not supported yet."); 
-		//To change body of generated methods, choose Tools | Templates.
+		try { 
+			itemDAO.save(i);
+		} catch (PersistenceException ex) { 
+			throw new ExcepcionServiciosAlquiler("Error al registrar el item"+i,ex);
+		}catch(Exception e) {
+			throw new UnsupportedOperationException("Not supported yet.");
+		} 
 	}
+	
 	@Override 
 	public void vetarCliente(long docu, boolean estado) throws ExcepcionServiciosAlquiler {
-		throw new UnsupportedOperationException("Not supported yet."); 
-		//To change body of generated methods, choose Tools | Templates.
+		try { 
+			clienteDAO.vetarCliente((int)docu, estado);
+		} catch (PersistenceException ex) { 
+			throw new ExcepcionServiciosAlquiler("Error al vetar el cliente"+docu,ex);
+		}catch(Exception e) {
+			throw new UnsupportedOperationException("Not supported yet.");
+		}
 	}	
 
 }

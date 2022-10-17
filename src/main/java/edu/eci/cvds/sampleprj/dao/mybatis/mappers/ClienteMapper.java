@@ -36,4 +36,8 @@ public interface ClienteMapper {
     
     public List<ItemRentado> consultarItemsCliente(@Param("idcli") int id);
     
+    public void agregarCliente(@Param("cliente") Cliente cliente);
+    
+    public void vetarCliente(@Param("idcli")int id, @Param("clienteVetado")boolean vetado);
+    
 }
