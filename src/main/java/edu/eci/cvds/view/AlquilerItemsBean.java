@@ -5,6 +5,7 @@ import edu.eci.cvds.samples.entities.Cliente;
 import edu.eci.cvds.exception.ExcepcionServiciosAlquiler;
 import edu.eci.cvds.samples.services.ServiciosAlquiler;
 
+
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
@@ -14,80 +15,83 @@ import java.util.List;
 
 import java.sql.Date;
 
+
+
+@SuppressWarnings("serial")
 @ManagedBean(name="AlquilerItemsBean")
 @ApplicationScoped
 public class AlquilerItemsBean extends BasePageBean {
-	@Inject
+
+    @Inject
     private ServiciosAlquiler serviciosAlquiler;
-    private Cliente cliente;
-	private long precio;
-	
+    private Cliente selectedCliente;
+	private long costo;
     public List<Cliente> consultarClientes(){
         List<Cliente> clientes = null;
         try{
-            clientes = serviciosAlquiler.consultarClientes();
-        } catch (ExcepcionServiciosAlquiler e) {
-            setErrorMessage(e);
+            clientes=serviciosAlquiler.consultarClientes();
+        } catch (ExcepcionServiciosAlquiler ex) {
+            setErrorMessage(ex);
         }
         return clientes;
     }
-    public Cliente consultarCliente(int id){
-        Cliente cliente = null;
+    public Cliente consultarCliente(long documento){
+        Cliente cliente=null;
         try {
-            cliente = serviciosAlquiler.consultarCliente(id);
+            cliente=serviciosAlquiler.consultarCliente(documento);
         } catch (Exception ex) {
             setErrorMessage(ex);
         }
         return cliente;
     }
-    public void registrarCliente(int documento, String nombre, String telefono, String direccion, String mail){
+    public void registrarCliente(long doc,String nombre,String telefono, String direccion,String mail){
         try{
-            serviciosAlquiler.registrarCliente(new Cliente(nombre, documento, telefono, direccion, mail));
+            serviciosAlquiler.registrarCliente(new Cliente(nombre,doc,telefono,direccion,mail));
         } catch (Exception ex) {
             setErrorMessage(ex);
         }
     }
 
-    public void setCliente(Cliente cliente){
-		this.cliente = cliente;
-	}
+    public void setSelectedCliente(Cliente cliente){
+    	this.selectedCliente = cliente;
+    	}
 
-    public Cliente getCliente(){
-        return cliente;
+    public Cliente getSelectedCliente(){
+        return selectedCliente;
     }
 	
 	
-	public long consultarMulta(Item itemId) {
-		long valorMulta = 0;
+	public long consultarMulta(Item it) {
+		long multa = 0;
 		try{
-			valorMulta = serviciosAlquiler.consultarMultaAlquiler(itemId.getId(),new Date(System.currentTimeMillis()));
+			multa= serviciosAlquiler.consultarMultaAlquiler(it.getId(),new Date(System.currentTimeMillis()));
 		}
 		catch(ExcepcionServiciosAlquiler ex){
             setErrorMessage(ex);
         }
-		return valorMulta;
+		return multa;
     }
 	
 	
 	public void registrarAlquilerCliente(int id,int numDiasAlquilar){
         try{
             Item item = serviciosAlquiler.consultarItem(id);
-            serviciosAlquiler.registrarAlquilerCliente(new Date(System.currentTimeMillis()),cliente.getDocumento(),item,numDiasAlquilar);
+            serviciosAlquiler.registrarAlquilerCliente(new Date(System.currentTimeMillis()),selectedCliente.getDocumento(),item,numDiasAlquilar);
         }catch(ExcepcionServiciosAlquiler ex){
             setErrorMessage(ex);
         }
     }
 	
-	public void consultarPrecio(int id, int numDiasAlquilar){
+	public void consultarCosto(int id, int numDiasAlquilar){
         try {
-            precio = serviciosAlquiler.consultarCostoAlquiler(id, numDiasAlquilar);
-        } catch (ExcepcionServiciosAlquiler e){
-            setErrorMessage(e);
+            costo = serviciosAlquiler.consultarCostoAlquiler(id, numDiasAlquilar);
+        } catch (ExcepcionServiciosAlquiler ex){
+            setErrorMessage(ex);
         }
     }
 	
-	public long getPrecio(){
-        return precio;
+	public long getCosto(){
+        return costo;
     }
 
     private void setErrorMessage(Exception ex){
