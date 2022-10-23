@@ -1,14 +1,25 @@
 package edu.eci.cvds.guice;
 
-/*import javax.servlet.ServletContext; 
+import javax.servlet.ServletContext; 
 import javax.servlet.ServletContextEvent; 
 import javax.servlet.ServletContextListener; 
 import org.mybatis.guice.XMLMyBatisModule; 
 import org.mybatis.guice.datasource.helper.JdbcHelper; 
 import com.google.inject.Guice; 
-import com.google.inject.Injector;*/
+import com.google.inject.Injector;
 
-/*public class GuiceContextListener {
+import edu.eci.cvds.sampleprj.dao.ClienteDAO;
+import edu.eci.cvds.sampleprj.dao.ItemDAO;
+import edu.eci.cvds.sampleprj.dao.ItemRentadoDAO;
+import edu.eci.cvds.sampleprj.dao.TipoItemDAO;
+import edu.eci.cvds.sampleprj.dao.mybatis.MyBATISClienteDAO;
+import edu.eci.cvds.sampleprj.dao.mybatis.MyBATISItemDAO;
+import edu.eci.cvds.sampleprj.dao.mybatis.MyBATISItemRentadoDAO;
+import edu.eci.cvds.sampleprj.dao.mybatis.MyBATISTipoItemDAO;
+import edu.eci.cvds.samples.services.ServiciosAlquiler;
+import edu.eci.cvds.samples.services.impl.ServiciosAlquilerItemsImpl;
+
+public class GuiceContextListener {
 	public void contextDestroyed(ServletContextEvent servletContextEvent) { 
 		ServletContext servletContext = servletContextEvent.getServletContext(); 
 		servletContext.removeAttribute(Injector.class.getName());
@@ -31,4 +42,4 @@ import com.google.inject.Injector;*/
 		servletContextEvent.getServletContext().setAttribute(Injector.class.getName(), injector);
 	}
 
-}*/
+}
